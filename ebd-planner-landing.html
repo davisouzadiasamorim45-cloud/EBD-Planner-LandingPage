@@ -59,8 +59,16 @@
   .nav-links a{color:#E9E2F2;text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:.02em;opacity:.85;transition:opacity .2s;}
   .nav-links a:hover{opacity:1;}
   .nav-cta{
-    background:var(--gold);color:var(--purple-dark);font-weight:700;font-size:.82rem;
-    padding:10px 22px;border-radius:3px;text-decoration:none;letter-spacing:.02em;
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(180deg,#E7CD93 0%,var(--gold) 55%,#C69A44 100%);
+    color:var(--purple-dark);font-weight:700;font-size:.82rem;
+    padding:10px 22px;border-radius:10px;text-decoration:none;letter-spacing:.02em;
+    box-shadow:0 1px 0 rgba(255,255,255,.4) inset, 0 6px 16px rgba(198,154,68,.3);
+    transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease;
+  }
+  .nav-cta:hover{
+    transform:translateY(-2px);
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 10px 24px rgba(198,154,68,.4);
   }
   @media(max-width:820px){.nav-links{display:none;}}
 
@@ -107,15 +115,45 @@
   }
   .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
   .btn-primary{
-    background:var(--gold);color:var(--purple-dark);font-weight:700;padding:16px 32px;
-    border-radius:3px;text-decoration:none;font-size:.92rem;letter-spacing:.02em;
-    transition:transform .2s ease;
+    position:relative;
+    display:inline-flex;align-items:center;gap:10px;
+    background:linear-gradient(180deg,#E7CD93 0%,var(--gold) 55%,#C69A44 100%);
+    color:var(--purple-dark);font-weight:700;padding:15px 30px;
+    border-radius:12px;text-decoration:none;font-size:.92rem;letter-spacing:.02em;
+    box-shadow:0 1px 0 rgba(255,255,255,.4) inset, 0 10px 26px rgba(198,154,68,.32), 0 2px 6px rgba(42,15,78,.18);
+    transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease;
+    overflow:hidden;
   }
-  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-primary::after{
+    content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 100%);
+    transform:skewX(-18deg);transition:left .6s ease;
+  }
+  .btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 1px 0 rgba(255,255,255,.55) inset, 0 18px 38px rgba(198,154,68,.42), 0 3px 8px rgba(42,15,78,.2);
+  }
+  .btn-primary:hover::after{left:130%;}
+  .btn-primary .arrow{font-size:1.05em;line-height:1;transition:transform .3s ease;}
+  .btn-primary:hover .arrow{transform:translateX(3px);}
+
   .btn-ghost{
-    border:1px solid rgba(255,255,255,.35);color:#fff;padding:16px 32px;border-radius:3px;
+    position:relative;
+    display:inline-flex;align-items:center;gap:10px;
+    border:1.5px solid rgba(255,255,255,.28);
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    color:#fff;padding:15px 30px;border-radius:12px;
     text-decoration:none;font-size:.92rem;font-weight:600;letter-spacing:.02em;
+    transition:background .3s ease, border-color .3s ease, transform .3s cubic-bezier(.22,1,.36,1);
   }
+  .btn-ghost:hover{
+    background:rgba(255,255,255,.1);
+    border-color:rgba(215,179,106,.7);
+    transform:translateY(-3px);
+  }
+  .btn-ghost .arrow{font-size:1.05em;line-height:1;transition:transform .3s ease;}
+  .btn-ghost:hover .arrow{transform:translateX(3px);}
   .hero-visual{
     position:relative;z-index:2;height:480px;
   }
@@ -153,12 +191,13 @@
     height:230vh;
   }
   .problem-pin{
-    position:sticky;top:0;height:100vh;
+    position:sticky;top:0;min-height:100vh;
     display:flex;align-items:center;
+    padding:60px 0;
     overflow:hidden;
   }
   .problem-grid{
-    display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center;
+    display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;
     max-width:1280px;width:100%;margin:0 auto;padding:0 6vw;
   }
   .problem-text{padding-top:4px;}
@@ -168,12 +207,12 @@
   .card-stack{
     position:relative;
     width:100%;
-    height:520px;
+    display:grid;
   }
   .ps-card{
-    position:absolute;inset:0;
+    grid-area:1 / 1;              /* ambos ocupam a mesma célula, sobrepostos */
     border-radius:10px;
-    padding:48px;
+    padding:44px 48px;
     box-shadow:0 25px 60px rgba(42,15,78,.18);
     will-change:transform, opacity;
   }
@@ -192,8 +231,8 @@
   .ps-card .ps-tag{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700;margin-bottom:18px;display:inline-block;padding:5px 12px;border-radius:20px;}
   .ps-card.antes .ps-tag{background:#EFE3D6;color:#8A5A1F;}
   .ps-card.depois .ps-tag{background:var(--gold);color:var(--purple-dark);}
-  .ps-card ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:14px;}
-  .ps-card li{padding-left:24px;position:relative;font-size:.95rem;line-height:1.5;font-weight:300;}
+  .ps-card ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:16px;}
+  .ps-card li{padding-left:24px;position:relative;font-size:1rem;line-height:1.5;font-weight:300;}
   .ps-card.antes li::before{content:"✕";position:absolute;left:0;color:#B5482E;font-weight:700;}
   .ps-card.depois li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700;}
   .scroll-hint{
@@ -204,7 +243,6 @@
   @media(max-width:900px){
     .problem-grid{grid-template-columns:1fr;gap:40px;}
     .problem-text{order:-1;}
-    .card-stack{height:460px;}
     .ps-card{padding:32px;}
   }
   @media (prefers-reduced-motion: reduce){
@@ -245,12 +283,12 @@
     border-radius:28px;
     min-height:260px;
     box-shadow:0 20px 50px rgba(42,15,78,.08);
-    padding:100px 4vw;
+    padding:32px 4vw;
   }
   .role-content{
     display:none;
     grid-template-columns:1fr 1fr;
-    gap:20px 40px;
+    gap:8px 48px;
   }
   .role-content.active{display:grid;}
   .role-feature{
@@ -271,23 +309,19 @@
     from{opacity:0;transform:scale(.4) translate(28px,28px);}
     to{opacity:1;transform:scale(1) translate(0,0);}
   }
-  .hex-icon{
-    height:4px;
-    border-radius:12px;
-    background:none;
+  .hex-icon{height:44px;
     color:var(--purple-mid);
-    padding:20px 0px 15px 0px;
-    display:flex;align-items:center;justify-content:flex-start;
-    margin-bottom:16px;
+    display:flex;align-items:flex-start;justify-content:flex-start;
+    margin-bottom:10px;
   }
-  .hex-icon svg{height:32px;display:block;}
+  .hex-icon svg{height:30px;display:block;}
   .hex-title{font-size:1rem;font-weight:700;color:var(--purple-dark);margin-bottom:8px;}
   .hex-desc{font-size:.85rem;font-weight:300;color:#6B5A82;line-height:1.55;max-width:320px;}
 
   @media(max-width:760px){
     .role-tab{padding:12px 18px;font-size:.78rem;}
     .role-content{grid-template-columns:1fr;gap:8px;}
-    .role-panel{padding:24px vw;}
+    .role-panel{padding:24px 5vw;}
   }
   @media (prefers-reduced-motion: reduce){
     .role-content.active .role-feature{animation:none;}
@@ -400,16 +434,16 @@
     width:180px;height:180px;
     transform:translate(-50%,-50%) scale(1);
     border-radius:50%;
-    background:radial-gradient(circle, rgba(236, 221, 255, 0.296) 0%, rgba(155,110,210,0) 70%);
+    background:radial-gradient(circle, rgba(155, 110, 210, 0.426) 0%, rgba(155,110,210,0) 70%);
     filter:blur(18px);
     opacity:calc(var(--turn,0) * .7);
-    animation:logoGlowPulse 5s ease-in-out infinite;
+    animation:logoGlowPulse 2.6s ease-in-out infinite;
     pointer-events:none;
     z-index:0;
   }
   @keyframes logoGlowPulse{
     0%,100%{ transform:translate(-50%,-50%) scale(1); }
-    50%{ transform:translate(-50%,-50%) scale(1.6); }
+    50%{ transform:translate(-50%,-50%) scale(1.22); }
   }
   .demo-logo-shine{
     height:56px;width:auto;
@@ -520,9 +554,96 @@
   }
 
   /* ---------- CTA FOOTER ---------- */
-  .cta-final{background:linear-gradient(135deg,var(--purple) 0%,var(--purple-dark) 100%);color:#fff;text-align:center;}
-  .cta-final h2{font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin-bottom:20px;}
-  .cta-final p{font-weight:300;color:#D9CFE9;max-width:480px;margin:0 auto 36px;line-height:1.6;}
+  .cta-final{
+    position:relative;
+    min-height:760px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    background:var(--purple-dark);
+    color:#fff;text-align:center;
+  }
+  .cta__canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
+  .cta__vignette{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(130% 100% at 50% 120%, rgba(8,5,20,0.7) 0%, rgba(8,5,20,0) 55%);
+  }
+  .cta__card{
+    position:relative;z-index:2;
+    width:100%;max-width:920px;margin:0 24px;
+    padding:68px 76px;
+    text-align:center;
+    border-radius:30px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.025) 100%);
+    backdrop-filter:blur(16px) saturate(125%);
+    -webkit-backdrop-filter:blur(16px) saturate(125%);
+    border:1px solid rgba(255,255,255,0.10);
+    box-shadow:0 40px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14);
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .cta__pill{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:8px 16px 8px 13px;
+    border-radius:999px;
+    border:1px solid rgba(215,179,106,0.32);
+    background:rgba(215,179,106,0.10);
+    color:var(--gold);
+    font-size:12.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  }
+  .cta__pill-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 10px var(--gold);
+    animation:ctaPulse 2.4s ease-in-out infinite;
+  }
+  .cta-final h2{
+    margin:28px 0 0;color:#fff;
+    font-weight:800;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.18;
+    max-width:760px;text-wrap:balance;
+  }
+  .cta-final h2 .grad{
+    background:linear-gradient(90deg,#E7CD93,var(--gold));
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:var(--gold);
+  }
+  .cta-final p{
+    margin:26px 0 0;color:#D9CFE9;
+    font-weight:300;font-size:1.1rem;line-height:1.6;max-width:520px;
+  }
+  .cta-final .btn-primary{
+    margin-top:40px;
+    display:inline-flex;align-items:center;gap:12px;
+    padding:20px 44px;
+    border-radius:14px;
+    text-decoration:none;
+    color:var(--purple-dark);
+    font-weight:700;font-size:1.05rem;letter-spacing:.2px;
+    background:linear-gradient(180deg,#E7CD93 0%,var(--gold) 55%,#C69A44 100%);
+    box-shadow:0 1px 0 rgba(255,255,255,0.45) inset, 0 16px 38px rgba(198,154,68,0.40), 0 2px 8px rgba(0,0,0,0.30);
+    transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease;
+  }
+  .cta-final .btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 1px 0 rgba(255,255,255,0.55) inset, 0 24px 52px rgba(198,154,68,0.52), 0 3px 10px rgba(0,0,0,0.32);
+  }
+  .cta-final .btn-primary .arrow{font-size:19px;line-height:1;transform:translateY(-1px);}
+  .cta-final .slogan{
+    margin-top:46px;width:100%;max-width:420px;
+    display:flex;align-items:center;gap:18px;
+    color:#C9A24B;font-weight:700;font-size:13px;letter-spacing:3.5px;white-space:nowrap;
+  }
+  .cta-final .slogan .rule{flex:1;height:1px;}
+  .cta-final .slogan .rule--l{background:linear-gradient(90deg, rgba(215,179,106,0) 0%, rgba(215,179,106,0.35) 100%);}
+  .cta-final .slogan .rule--r{background:linear-gradient(90deg, rgba(215,179,106,0.35) 0%, rgba(215,179,106,0) 100%);}
+  @keyframes ctaPulse{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.35);}}
+  @media (max-width:768px){
+    .cta-final{min-height:620px;}
+    .cta__card{padding:44px 26px;border-radius:24px;}
+    .cta-final .btn-primary{padding:17px 30px;font-size:.95rem;width:100%;justify-content:center;}
+    .cta-final .slogan{font-size:11px;letter-spacing:2px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .cta__pill-dot{animation:none;}
+  }
   .slogan{
     margin-top:60px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;
     font-size:.85rem;color:var(--gold);
@@ -558,8 +679,8 @@
       <h1>A frequência da sua EBD, <span>sem planilhas e sem perda de dados.</span></h1>
       <p class="lead">O EBD Planner organiza turmas, professores e chamada em um só lugar — para que cada superintendente saiba exatamente como sua classe está, todo domingo.</p>
       <div class="hero-ctas">
-        <a href="#demo" class="btn-primary">Ver o sistema em ação</a>
-        <a href="#hierarquia" class="btn-ghost">Entender a estrutura</a>
+        <a href="#demo" class="btn-primary">Ver o sistema em ação <span class="arrow">&rarr;</span></a>
+        <a href="#hierarquia" class="btn-ghost">Entender a estrutura <span class="arrow">&rarr;</span></a>
       </div>
     </div>
     <div class="hero-visual">
@@ -594,16 +715,24 @@
           <ul>
             <li>Caderneta que se perde, rasga ou fica em casa</li>
             <li>Soma manual de presença, sujeita a erro</li>
-            <li>Relatório mensal demorado e incompleto</li>
+            <li>Lentidão para gerar relatórios — sem automação na consolidação</li>
             <li>Superintendente sem visão geral das classes</li>
+            <li>Dependência de ligações e coleta manual entre as igrejas</li>
+            <li>Dificuldade de auditoria e conferência dos números</li>
+            <li>Custos recorrentes com impressão de material</li>
+            <li>Impossível comparar dados históricos rapidamente</li>
           </ul>
         </div>
         <div class="ps-card depois" id="cardDepois">
           <span class="ps-tag">Com o EBD Planner</span>
           <ul>
             <li>Chamada digital, feita pelo professor em segundos</li>
-            <li>Frequência consolidada automaticamente</li>
+            <li>Fim do trabalho manual de soma e preenchimento</li>
+            <li>Relatórios instantâneos, sem espera</li>
             <li>Painel do superintendente atualizado a cada domingo</li>
+            <li>Fim da dependência de ligações e coleta manual</li>
+            <li>Segurança e backup automático da informação</li>
+            <li>Comparação histórica das turmas em um clique</li>
             <li>Histórico de cada aluno e cada turma, sempre disponível</li>
           </ul>
         </div>
@@ -635,7 +764,7 @@
       <div class="role-panel">
         <div class="role-content active" data-role-content="super">
           <div class="role-feature">
-            <div class="hex-icon"><svg  height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M12 8C13.6569 8 15 6.65685 15 5C15 3.34315 13.6569 2 12 2C10.3431 2 9 3.34315 9 5C9 6.65685 10.3431 8 12 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M6 16C7.10457 16 8 15.1046 8 14C8 12.8954 7.10457 12 6 12C4.89543 12 4 12.8954 4 14C4 15.1046 4.89543 16 6 16Z" stroke="currentColor" stroke-width="2"/>
@@ -645,11 +774,11 @@
   <path d="M3.5 21C3.5 19.6193 4.61929 18.5 6 18.5C7.38071 18.5 8.5 19.6193 8.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M15.5 21C15.5 19.6193 16.6193 18.5 18 18.5C19.3807 18.5 20.5 19.6193 20.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 </svg></div>
-            <div class="hex-title">Acesso irrestrito</div>
-            <div class="hex-desc">O Gestor Geral acompanha tudo e todos usuários em uma única tela.</div>
+            <div class="hex-title">Painel da liderança</div>
+            <div class="hex-desc">Superintendente e pastor acompanham todas as turmas em uma única tela.</div>
           </div>
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M14 2H7C5.89543 2 5 2.89543 5 4V20C5 21.1046 5.89543 22 7 22H17C18.1046 22 19 21.1046 19 20V7L14 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M14 2V7H19" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M9 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -658,10 +787,10 @@
   <path d="M19 10V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 </svg></div>
             <div class="hex-title">Relatórios automáticos</div>
-            <div class="hex-desc">O relatório que hoje leva horas ou até mesmo dias para fechar, pronto no momento em que a aula termina.</div>
+            <div class="hex-desc">O relatório que hoje leva dias para fechar, pronto no momento em que a aula termina.</div>
           </div>
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M12 4L15 7V11H9V7L12 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M5 14L7 16V19H3V16L5 14Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M19 14L21 16V19H17V16L19 14Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
@@ -670,7 +799,7 @@
   <path d="M12 14H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 </svg></div>
             <div class="hex-title">Visão multi-igreja</div>
-            <div class="hex-desc">Acompanhe todas as igrejas filiais da rede em um só painel, sem precisar somar manualmente.</div>
+            <div class="hex-desc">Acompanhe todas as igrejas da rede em um só painel, sem precisar somar planilhas.</div>
           </div>
           <div class="role-feature">
             <div class="hex-icon"></div>
@@ -681,7 +810,7 @@
 
         <div class="role-content" data-role-content="admin">
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect x="4" y="4" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
   <path d="M8 8H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M8 11H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -692,7 +821,7 @@
             <div class="hex-desc">Cada classe com seu professor, sua sala e seu histórico, sempre visível.</div>
           </div>
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="2"/>
   <path d="M12 7V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M7 10H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -701,10 +830,10 @@
   <path d="M12 16L16 17.5V20.5C16 22 14.3 23 12 23C9.7 23 8 22 8 20.5V17.5L12 16Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
 </svg></div>
             <div class="hex-title">Permissões por hierarquia</div>
-            <div class="hex-desc">Gerencia acessos de outros Administradores e professores - geralmente utilizado por superintendentes locais e secretários.</div>
+            <div class="hex-desc">Cada papel vê e edita só o que precisa — do professor ao superintendente geral.</div>
           </div>
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 5L12 2L16 5V11H8V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M11 11V8H13V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M5 15H9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -714,8 +843,8 @@
   <path d="M15 15H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M18 12V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 </svg></div>
-            <div class="hex-title">Cadastro de classes</div>
-            <div class="hex-desc">Organize a estrutura da sua igreja em poucos cliques.</div>
+            <div class="hex-title">Cadastro de igrejas e classes</div>
+            <div class="hex-desc">Organize a estrutura da sua igreja — classes, turmas e salas — em poucos cliques.</div>
           </div>
           <div class="role-feature">
             <div class="hex-icon"></div>
@@ -726,7 +855,7 @@
 
         <div class="role-content" data-role-content="professor">
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect x="6" y="2" width="12" height="20" rx="3" stroke="currentColor" stroke-width="2"/>
   <path d="M9 8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M9 12H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -736,7 +865,7 @@
             <div class="hex-desc">Professor marca presença direto do celular, sem internet instável travar o domingo.</div>
           </div>
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="2"/>
   <path d="M3.5 18C3.5 15.5 5.5 14 8 14C10.5 14 12.5 15.5 12.5 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <path d="M15 7H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -746,10 +875,10 @@
   <path d="M19 17H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
 </svg></div>
             <div class="hex-title">Histórico de alunos</div>
-            <div class="hex-desc">Frequência acumulada por aluno, útil para visitação e cuidado eclesiástico.</div>
+            <div class="hex-desc">Frequência acumulada por aluno, útil para visitação e cuidado pastoral.</div>
           </div>
           <div class="role-feature">
-            <div class="hex-icon"><svg height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="hex-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M6 4C6 3.44772 6.44772 3 7 3H18C18.5523 3 19 3.44772 19 4V20C19 20.5523 18.5523 21 18 21H7C6.44772 21 6 20.5523 6 20V4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M6 3H5C4.44772 3 4 3.44772 4 4V20C4 20.5523 4.44772 21 5 21H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
   <path d="M10 8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -772,15 +901,15 @@
 
 <section class="hierarchy" id="hierarquia">
   <div class="section-inner">
-    <div class="section-eyebrow eyebrow">Fluxograma Estrutural</div>
+    <div class="section-eyebrow eyebrow">Estrutura e permissões</div>
     <h2 class="section-title">Cada nível da liderança vê exatamente o que precisa ver.</h2>
-    <p class="section-sub">A estrutura do EBD Planner segue a hierarquia real da EBD — sem dar acesso além do necessário e sem deixar ninguém no escuro.</p>
+    <p class="section-sub">A estrutura do EBD Planner segue a hierarquia real da EBD — sem dar acesso além do necessário, sem deixar ninguém no escuro.</p>
 
     <div class="org-tree">
       <div class="org-box-wrap no-stem" style="padding-top:0;width:260px;">
         <div class="org-box tier1">
           <div class="icon-row">👑 Superusuário</div>
-          <div class="sub">controle total do sistema</div>
+          <div class="sub">Controle total do sistema</div>
         </div>
       </div>
 
@@ -795,13 +924,13 @@
         <div class="org-box-wrap">
           <div class="org-box tier2">
             <div class="icon-row">🗂 Administrador</div>
-            <div class="sub">Subsede A</div>
+            <div class="sub">Subsede B</div>
           </div>
         </div>
         <div class="org-box-wrap">
           <div class="org-box tier2">
             <div class="icon-row">🗂 Administrador</div>
-            <div class="sub">Subsede B</div>
+            <div class="sub">Subsede C</div>
           </div>
         </div>
       </div>
@@ -810,7 +939,7 @@
       <div class="branch-row" style="--bw:180px;">
         <div class="org-box-wrap">
           <div class="org-box tier3">
-            <div class="icon-row">📖 Professor João</div>
+            <div class="icon-row">📖 Professor Erick</div>
             <div class="sub">turma vinculada</div>
           </div>
         </div>
@@ -822,13 +951,13 @@
         </div>
         <div class="org-box-wrap">
           <div class="org-box tier3">
-            <div class="icon-row">📖 Professor Clóvis</div>
+            <div class="icon-row">📖 Professor Carlos</div>
             <div class="sub">turma vinculada</div>
           </div>
         </div>
         <div class="org-box-wrap">
           <div class="org-box tier3">
-            <div class="icon-row">📖 Professor Mateus</div>
+            <div class="icon-row">📖 Professor David</div>
             <div class="sub">turma vinculada</div>
           </div>
         </div>
@@ -1267,15 +1396,32 @@
     })();
     </script>
   </div>
+
   <span class="demo-warning">Sujeito à modificações</span>
 </section>
 
 <section class="cta-final">
-  <div class="section-inner">
-    <h2>Pronto para dar o <strong style="border-bottom: #8A6A1A 2px solid;">próximo passo</strong> no planejamento da sua EBD?</h2>
-    <p>Sendo necessário ajustes - Marcamos uma renunião e personalizamos para melhor lhe atender!</p>
-    <a href="#demo" class="btn-primary">Agendar demonstração com a liderança</a>
-    <div class="slogan">Planeje. Ensine. Transforme.</div>
+  <canvas class="cta__canvas" id="ctaShaderCanvas"></canvas>
+  <div class="cta__vignette"></div>
+
+  <div class="cta__card">
+    <div class="cta__pill">
+      <span class="cta__pill-dot"></span>
+      Plataforma de Planejamento da EBD
+    </div>
+
+    <h2>Pronto para dar o <span class="grad">próximo passo</span> no planejamento da sua EBD?</h2>
+    <p>Sendo necessários ajustes, marcamos uma reunião e personalizamos a plataforma para melhor lhe atender.</p>
+    <a href="#demo" class="btn-primary">
+      Agendar demonstração com nossa equipe
+      <span class="arrow">&rarr;</span>
+    </a>
+
+    <div class="slogan">  
+      <span class="rule rule--l"></span>
+      <span>PLANEJE &middot; ENSINE &middot; TRANSFORME</span>
+      <span class="rule rule--r"></span>
+    </div>
   </div>
 </section>
 
@@ -1593,6 +1739,125 @@
     }
   }
   hexField.appendChild(svg);
+</script>
+
+<script>
+  // ---------- CTA final: shader WebGL (mesh gradient fluido) ----------
+  (function () {
+    var canvas = document.getElementById('ctaShaderCanvas');
+    if (!canvas) return;
+
+    var CONFIG = { style: 'Fluido', intensity: 0.7, gold: 0.65, speed: 1.0 };
+    var MODE = { Fluido: 0, Linhas: 1, Brilho: 2 };
+
+    var gl = canvas.getContext('webgl', { antialias: true });
+    if (!gl) { canvas.style.background = 'linear-gradient(135deg,#1a0f38,#3a1c6b)'; return; }
+
+    var VS = 'attribute vec2 p; void main(){ gl_Position = vec4(p,0.0,1.0); }';
+    var FS = [
+      'precision highp float;',
+      'uniform vec2 u_res; uniform float u_time; uniform int u_mode;',
+      'uniform float u_intensity; uniform float u_gold; uniform float u_speed;',
+      'float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123); }',
+      'vec3 blobColor(int i){',
+      '  if(i==0) return vec3(0.357,0.165,0.640);',
+      '  if(i==1) return vec3(0.227,0.118,0.560);',
+      '  if(i==2) return vec3(0.470,0.180,0.560);',
+      '  if(i==3) return vec3(0.180,0.165,0.560);',
+      '  return vec3(0.560,0.300,0.480);',
+      '}',
+      'void main(){',
+      '  float aspect = u_res.x/u_res.y;',
+      '  vec2 uv = gl_FragCoord.xy/u_res.xy;',
+      '  vec2 p = vec2(uv.x*aspect, uv.y);',
+      '  float t = u_time*0.16*u_speed;',
+      '  float soft = (u_mode==2) ? 0.95 : 0.62;',
+      '  vec3 col = vec3(0.050,0.034,0.110);',
+      '  for(int i=0;i<5;i++){',
+      '    float fi = float(i);',
+      '    float cx = 0.5 + 0.42*sin(t*(0.5+fi*0.13) + fi*1.7);',
+      '    float cy = 0.5 + 0.40*cos(t*(0.43+fi*0.11) + fi*2.3);',
+      '    vec2 c = vec2(cx*aspect, cy);',
+      '    float d = distance(p, c);',
+      '    float w = smoothstep(soft, 0.0, d); w = w*w;',
+      '    col += blobColor(i) * w * (0.55 + u_intensity*0.7);',
+      '  }',
+      '  float gx = 0.5 + 0.30*sin(t*0.37);',
+      '  float gy = 0.62 + 0.22*cos(t*0.29);',
+      '  float gd = distance(p, vec2(gx*aspect, gy));',
+      '  float gw = smoothstep(0.85, 0.0, gd); gw = pow(gw, 1.6);',
+      '  col += vec3(0.85,0.69,0.38) * gw * 0.32 * u_gold * ((u_mode==2)?1.5:1.0);',
+      '  if(u_mode==1){',
+      '    for(int k=0;k<3;k++){',
+      '      float fk = float(k);',
+      '      float line = sin((p.x - p.y)*9.0 + t*1.4 + fk*2.1);',
+      '      float band = smoothstep(0.93, 1.0, line);',
+      '      col += vec3(0.85,0.70,0.42) * band * 0.05 * u_gold;',
+      '    }',
+      '  }',
+      '  col = col/(col+0.85);',
+      '  col = pow(col, vec3(0.85));',
+      '  float vig = smoothstep(1.5,0.35,length((uv-0.5)*vec2(1.05,1.25)));',
+      '  col *= mix(0.6,1.0,vig);',
+      '  col += (hash(gl_FragCoord.xy + t)-0.5)*0.013;',
+      '  gl_FragColor = vec4(col,1.0);',
+      '}'
+    ].join('\n');
+
+    function compile(type, src){
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.warn(gl.getShaderInfoLog(s));
+      return s;
+    }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VS));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FS));
+    gl.linkProgram(prog); gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    var U = {
+      res: gl.getUniformLocation(prog, 'u_res'),
+      time: gl.getUniformLocation(prog, 'u_time'),
+      mode: gl.getUniformLocation(prog, 'u_mode'),
+      intensity: gl.getUniformLocation(prog, 'u_intensity'),
+      gold: gl.getUniformLocation(prog, 'u_gold'),
+      speed: gl.getUniformLocation(prog, 'u_speed')
+    };
+
+    function resize(){
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.max(1, Math.round(canvas.clientWidth * dpr));
+      var h = Math.max(1, Math.round(canvas.clientHeight * dpr));
+      if (canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+      gl.viewport(0, 0, w, h);
+    }
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas);
+    else window.addEventListener('resize', resize);
+    resize();
+
+    var start = performance.now();
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function frame(){
+      var t = reduce ? 6.0 : (performance.now() - start) / 1000;
+      gl.uniform2f(U.res, canvas.width, canvas.height);
+      gl.uniform1f(U.time, t);
+      gl.uniform1i(U.mode, MODE[CONFIG.style] || 0);
+      gl.uniform1f(U.intensity, CONFIG.intensity);
+      gl.uniform1f(U.gold, CONFIG.gold);
+      gl.uniform1f(U.speed, CONFIG.speed);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    frame();
+  })();
 </script>
 
 </body>
